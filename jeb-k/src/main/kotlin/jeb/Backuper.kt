@@ -9,7 +9,7 @@ class Backuper(private val io: Io) {
             if (done) reset() else this
         }
 
-        val (from, to)  = hanoi.nextMove()
+        val (from, to) = hanoi.nextMove()
         val disk = hanoi[from].last()
         val newHanoi = hanoi.moveDisk(from, to)
 
@@ -22,9 +22,12 @@ class Backuper(private val io: Io) {
     private fun backupTo(tape: File, from: File, base: File?) {
         io.remove(tape)
         if (base == null) {
-            io.copy(from, tape)
+            io.copy(from = from,
+                    to = tape)
         } else {
-            io.sync(from, base, tape)
+            io.sync(from = from,
+                    base = base,
+                    to = tape)
         }
     }
 
