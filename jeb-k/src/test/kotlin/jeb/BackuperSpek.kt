@@ -18,7 +18,7 @@ class BackuperSpek : Spek() {init {
             val backuper = Backuper(io)
             on("perform backup") {
 
-                `when`(io.latestDir("anything")).thenReturn(null)
+                `when`(io.latestDir(File("anything"))).thenReturn(null)
                 val newState = backuper.doBackup(state)
                 it("should return correct new state") {
                     shouldEqual(newState.hanoi[0], listOf(4, 3, 2))
@@ -39,7 +39,7 @@ class BackuperSpek : Spek() {init {
         on("perform backup") {
 
             val backup = File(backups, "1")
-            `when`(io.latestDir(backups)).thenReturn(backup)
+            `when`(io.latestDir(File(backups))).thenReturn(backup)
             val newState = backuper.doBackup(state)
             it("should return correct new state") {
                 shouldEqual(newState.hanoi[0], listOf(4, 3))
@@ -59,7 +59,7 @@ class BackuperSpek : Spek() {init {
             val state = State(backups, source, Hanoi(listOf(listOf(4, 3, 2, 1), emptyList(), emptyList()), 0))
             val backuper = Backuper(io)
             on("perform backup") {
-                `when`(io.latestDir("anything")).thenReturn(null)
+                `when`(io.latestDir(File("anything"))).thenReturn(null)
 
                 val newState = backuper.doBackup(state)
                 it ("should return correct new state") {
