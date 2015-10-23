@@ -6,7 +6,7 @@ class Backuper(private val io: Io) {
 
     fun doBackup(state: State): State {
 
-        val (newState, nextTapeNum) = selectNextTape(state)
+        val (newState, nextTapeNum) = state.selectNextTape()
 
         val tape = File(state.backupsDir, nextTapeNum.toString())
         val source = File(state.source)
@@ -23,17 +23,6 @@ class Backuper(private val io: Io) {
         }
 
         return newState
-    }
-
-    private fun selectNextTape(state: State): Pair<State, Int> {
-        val hanoi = with(state.hanoi) {
-            if (done) reset() else this
-        }
-
-        val (from, to) = hanoi.nextMove()
-        val disk = hanoi[from].last()
-        val newHanoi = hanoi.moveDisk(from, to)
-        return Pair(state.copy(hanoi = newHanoi), disk)
     }
 
 }
