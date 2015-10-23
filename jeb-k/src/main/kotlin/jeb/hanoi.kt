@@ -11,8 +11,8 @@ class Hanoi @JsonCreator constructor (
 
     private val moves = listOf(0 to 1, 0 to 2, 1 to 2)
 
-    private val descComparator = Comparator { a: Int, b: Int -> b - a }
-    private val disks = pegs.fold(sortedSetOf<Int>(descComparator)) { acc, e -> acc.addAll(e); acc }
+    private val disksComparator = Comparator { a: Int, b: Int -> b - a }
+    private val disks = pegs.fold(sortedSetOf<Int>(disksComparator)) { acc, e -> acc.addAll(e); acc }
 
     val done = pegs[0].size == 0 && pegs[1].size == 0
 
