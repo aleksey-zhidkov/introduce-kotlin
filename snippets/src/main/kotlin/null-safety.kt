@@ -11,7 +11,7 @@ fun main(args: Array<String>) {
         nullable.substring(0)
     }
 
-    val len = nullable?.length() // Contains len or null
+    val len = nullable?.length // Contains len or null
     val lenOrNull = len ?: 0 // Contains len or 0, so not nullable
 
     nullable!!.substring(0) // Throw me NPE please
