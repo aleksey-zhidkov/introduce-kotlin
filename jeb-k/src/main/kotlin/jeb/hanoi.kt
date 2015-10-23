@@ -51,5 +51,5 @@ operator fun List<Int>.compareTo(another: List<Int>) = when {
 
 fun <T> List<T>.moveTo(another: List<T>): Pair<List<T>, List<T>> = Pair(
         this.subList(0, this.size - 1),
-        ArrayList(another) + (this as Iterable<T>).last())
+        ArrayList(another) + this[this.lastIndex])
 
