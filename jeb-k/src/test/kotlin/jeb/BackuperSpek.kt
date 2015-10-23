@@ -9,27 +9,27 @@ import java.io.File
 
 class BackuperSpek : Spek() {init {
 
-        val backups = "/tmp/backups"
-        val source = "/tmp/source"
+    val backups = "/tmp/backups"
+    val source = "/tmp/source"
 
-        given("Backup when hanoi is solved") {
-            val io = Mockito.mock(Io::class.java)
-            val state = State(backups, source, Hanoi(listOf(emptyList(), emptyList(), listOf(4, 3, 2, 1)), 15))
-            val backuper = Backuper(io)
-            on("perform backup") {
+    given("Backup when hanoi is solved") {
+        val io = Mockito.mock(Io::class.java)
+        val state = State(backups, source, Hanoi(listOf(emptyList(), emptyList(), listOf(4, 3, 2, 1)), 15))
+        val backuper = Backuper(io)
+        on("perform backup") {
 
-                `when`(io.latestDir(File("anything"))).thenReturn(null)
-                val newState = backuper.doBackup(state)
-                it("should return correct new state") {
-                    shouldEqual(newState.hanoi[0], listOf(4, 3, 2))
-                    shouldEqual(newState.hanoi[1], listOf(1))
-                }
+            `when`(io.latestDir(File("anything"))).thenReturn(null)
+            val newState = backuper.doBackup(state)
+            it("should return correct new state") {
+                shouldEqual(newState.hanoi[0], listOf(4, 3, 2))
+                shouldEqual(newState.hanoi[1], listOf(1))
+            }
 
-                it ("should remove old data and create initial backup") {
-                    val backup = File("/tmp/backups/1")
-                    verify(io).remove(backup)
-                    verify(io).copy(File(source), backup)
-            }}}
+            it ("should remove old data and create initial backup") {
+                val backup = File("/tmp/backups/1")
+                verify(io).remove(backup)
+                verify(io).copy(File(source), backup)
+        }}}
 
 
     given("Directory with existing backup") {
@@ -54,20 +54,20 @@ class BackuperSpek : Spek() {init {
             }}}
 
 
-        given("Initial backup state") {
-            val io = Mockito.mock(Io::class.java)
-            val state = State(backups, source, Hanoi(listOf(listOf(4, 3, 2, 1), emptyList(), emptyList()), 0))
-            val backuper = Backuper(io)
-            on("perform backup") {
-                `when`(io.latestDir(File("anything"))).thenReturn(null)
+    given("Initial backup state") {
+        val io = Mockito.mock(Io::class.java)
+        val state = State(backups, source, Hanoi(listOf(listOf(4, 3, 2, 1), emptyList(), emptyList()), 0))
+        val backuper = Backuper(io)
+        on("perform backup") {
+            `when`(io.latestDir(File("anything"))).thenReturn(null)
 
-                val newState = backuper.doBackup(state)
-                it ("should return correct new state") {
-                    shouldEqual(newState.hanoi[0], listOf(4, 3, 2))
-                    shouldEqual(newState.hanoi[1], listOf(1))
-                }
-                it ("should remove old data and create initial backup") {
-                    val backup = File("/tmp/backups/1")
-                    verify(io).remove(backup)
-                    verify(io).copy(File(source), backup)
-                }}}}}
+            val newState = backuper.doBackup(state)
+            it ("should return correct new state") {
+                shouldEqual(newState.hanoi[0], listOf(4, 3, 2))
+                shouldEqual(newState.hanoi[1], listOf(1))
+            }
+            it ("should remove old data and create initial backup") {
+                val backup = File("/tmp/backups/1")
+                verify(io).remove(backup)
+                verify(io).copy(File(source), backup)
+            }}}}}
