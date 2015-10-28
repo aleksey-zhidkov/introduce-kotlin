@@ -2,7 +2,7 @@ package delegateclass
 
 private class LyingList<T>(l: List<T>) : List<T> by l {
 
-    override fun contains(o: Any?): Boolean = true
+    override fun contains(element: T): Boolean = true
 
 }
 
