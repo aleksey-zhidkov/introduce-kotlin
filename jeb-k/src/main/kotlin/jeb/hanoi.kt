@@ -18,24 +18,24 @@ class Hanoi @JsonCreator constructor (
 
     fun reset() = Hanoi(listOf(disks.toList(), emptyList(), emptyList()), 0)
 
-    fun nextMove(): Pair<Int, Int> {
+    fun moveDisk(): Pair<Hanoi, Int> {
+        val (from, to) = nextMove()
+        val (newSource, dest) = pegs[from].moveTo(pegs[to])
+
+        val newPegs = ArrayList(pegs)
+        newPegs[from] = newSource
+        newPegs[to] = dest
+
+        return Pair(Hanoi(newPegs, step + 1), newPegs[to].last())
+    }
+
+    private fun nextMove(): Pair<Int, Int> {
         val (peg1, peg2) = moves[step % 3]
         return if (pegs[peg2] > pegs[peg1]) {
             Pair(peg1, peg2)
         } else {
             Pair(peg2, peg1)
         }
-    }
-
-    fun moveDisk(from: Int, to: Int): Hanoi {
-
-        val source = pegs[from]
-        val (newSource, dest) = source.moveTo(pegs[to])
-
-        val newPegs = ArrayList(pegs)
-        newPegs[from] = newSource
-        newPegs[to] = dest
-        return Hanoi(newPegs, step + 1)
     }
 
     operator fun get(pegIdx: Int) = pegs[pegIdx]
